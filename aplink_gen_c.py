@@ -54,6 +54,6 @@ for message in messages:
 
 c_code = template.render(messages=messages, formats=formats)
 
-f = open("aplink_c/aplink.h", "w")
+f = open("output/aplink_c/aplink_messages.h", "w")
 f.write(c_code)
 f.close()

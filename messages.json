@@ -7,7 +7,7 @@
             {"name": "pos_est_east", "type": "float"},
             {"name": "current_waypoint", "type": "uint8_t"}
         ]
-    },
+    }, 
     {
         "msg_name": "cal_sensors",
         "msg_id": 1,
@@ -22,12 +22,21 @@
             {"name": "my", "type": "float"},
             {"name": "mz", "type": "float"}
         ]
-    },
+    }, 
     {
         "msg_name": "command",
         "msg_id": 2,
         "fields": [
             {"name": "command_id", "type": "uint8_t"}
+        ]
+    }, 
+    {
+        "msg_name": "waypoint",
+        "msg_id": 3,
+        "fields": [
+            {"name": "lat", "type": "uint32_t"},
+            {"name": "lon", "type": "uint32_t"},
+            {"name": "alt", "type": "float"}
         ]
     }
 ]
