@@ -1,8 +1,28 @@
 import json
 from jinja2 import Template
 
+# Don't need packing, just manually set the values
+
 template = Template('''
 // Auto-generated C
+                    
+#include <stdint.h>
+
+{% for i in range(messages|length) %}  
+#define {{ messages[i].msg_name|upper }}_MSG_ID {{ messages[i].msg_id }}
+
+struct aplink_{{ messages[i].msg_name }} 
+{
+    {% for field in messages[i].fields %}
+    {{ field.type }} {{ field.name }};
+    {% endfor %}
+};
+                    
+void aplink_{{ messages[i].msg_name }}_pack()
+{
+    
+}
+{% endfor %}
 ''')
 
 type_mappings = {
