@@ -6,7 +6,7 @@ from output.aplink_python.aplink_helpers import APLink
 
         
 class aplink_nav_display:
-    format = "=tffB"
+    format = "=ffB"
     msg_id = 0  
                       
     
@@ -25,12 +25,12 @@ class aplink_nav_display:
                     
         return True
     
-    def pack(self):
-        payload = struct.pack(format, self.pos_est_north, self.pos_est_east, self.current_waypoint)
+    def pack(self, pos_est_north, pos_est_east, current_waypoint):
+        payload = struct.pack(format, pos_est_north, pos_est_east, current_waypoint)
         return APLink().pack(payload, self.msg_id)
         
 class aplink_cal_sensors:
-    format = "=tfffffffff"
+    format = "=fffffffff"
     msg_id = 1  
                       
     
@@ -61,12 +61,12 @@ class aplink_cal_sensors:
                     
         return True
     
-    def pack(self):
-        payload = struct.pack(format, self.gx, self.gy, self.gz, self.ax, self.ay, self.az, self.mx, self.my, self.mz)
+    def pack(self, gx, gy, gz, ax, ay, az, mx, my, mz):
+        payload = struct.pack(format, gx, gy, gz, ax, ay, az, mx, my, mz)
         return APLink().pack(payload, self.msg_id)
         
 class aplink_command:
-    format = "=tB"
+    format = "=B"
     msg_id = 2  
                       
     
@@ -81,12 +81,12 @@ class aplink_command:
                     
         return True
     
-    def pack(self):
-        payload = struct.pack(format, self.command_id)
+    def pack(self, command_id):
+        payload = struct.pack(format, command_id)
         return APLink().pack(payload, self.msg_id)
         
 class aplink_waypoint:
-    format = "=tIIf"
+    format = "=IIf"
     msg_id = 3  
                       
     
@@ -105,6 +105,58 @@ class aplink_waypoint:
                     
         return True
     
-    def pack(self):
-        payload = struct.pack(format, self.lat, self.lon, self.alt)
+    def pack(self, lat, lon, alt):
+        payload = struct.pack(format, lat, lon, alt)
+        return APLink().pack(payload, self.msg_id)
+        
+class aplink_calibrate:
+    format = "=?"
+    msg_id = 4  
+                      
+    
+    acknowledgement = None
+    
+    
+    def unpack(self, payload: bytes):
+        if len(payload) != struct.calcsize(self.format):
+            return False
+                    
+        self.acknowledgement, = struct.unpack(self.format, payload)
+                    
+        return True
+    
+    def pack(self, acknowledgement):
+        payload = struct.pack(format, acknowledgement)
+        return APLink().pack(payload, self.msg_id)
+        
+class aplink_vfr_hud:
+    format = "=hhhhhhh"
+    msg_id = 5  
+                      
+    
+    roll = None
+    
+    pitch = None
+    
+    yaw = None
+    
+    alt = None
+    
+    alt_sp = None
+    
+    spd = None
+    
+    spd_sp = None
+    
+    
+    def unpack(self, payload: bytes):
+        if len(payload) != struct.calcsize(self.format):
+            return False
+                    
+        self.roll, self.pitch, self.yaw, self.alt, self.alt_sp, self.spd, self.spd_sp, = struct.unpack(self.format, payload)
+                    
+        return True
+    
+    def pack(self, roll, pitch, yaw, alt, alt_sp, spd, spd_sp):
+        payload = struct.pack(format, roll, pitch, yaw, alt, alt_sp, spd, spd_sp)
         return APLink().pack(payload, self.msg_id)

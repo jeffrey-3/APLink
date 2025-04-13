@@ -68,6 +68,64 @@ void aplink_command_pack()
 {
     
 }
+  
+#define WAYPOINT_MSG_ID 3
+
+struct aplink_waypoint 
+{
+    
+    uint32_t lat;
+    
+    uint32_t lon;
+    
+    float alt;
+    
+};
+                    
+void aplink_waypoint_pack()
+{
+    
+}
+  
+#define CALIBRATE_MSG_ID 4
+
+struct aplink_calibrate 
+{
+    
+    bool acknowledgement;
+    
+};
+                    
+void aplink_calibrate_pack()
+{
+    
+}
+  
+#define VFR_HUD_MSG_ID 5
+
+struct aplink_vfr_hud 
+{
+    
+    int16_t roll;
+    
+    int16_t pitch;
+    
+    int16_t yaw;
+    
+    int16_t alt;
+    
+    int16_t alt_sp;
+    
+    int16_t spd;
+    
+    int16_t spd_sp;
+    
+};
+                    
+void aplink_vfr_hud_pack()
+{
+    
+}
 
                     
 #endif /* APLINK_H_ */

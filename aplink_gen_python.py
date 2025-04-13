@@ -6,11 +6,11 @@ template = Template('''
 # Auto-generated Python
 
 import struct
-from output.aplink_python.aplink import APLink
+from output.aplink_python.aplink_helpers import APLink
 
 {% for i in range(messages|length) %}        
 class aplink_{{ messages[i].msg_name }}:
-    format = "=t{{ formats[i] }}"
+    format = "={{ formats[i] }}"
     msg_id = {{ messages[i].msg_id }}  
                       
     {% for field in messages[i].fields %}
@@ -25,21 +25,22 @@ class aplink_{{ messages[i].msg_name }}:
                     
         return True
     
-    def pack(self):
-        payload = struct.pack(format{% for field in messages[i].fields %}, self.{{ field.name }}{% endfor %})
+    def pack(self{% for field in messages[i].fields %}, {{ field.name }}{% endfor %}):
+        payload = struct.pack(format{% for field in messages[i].fields %}, {{ field.name }}{% endfor %})
         return APLink().pack(payload, self.msg_id)
 {% endfor %}
 ''')
 
 type_mappings = {
-    "float": "f",
+    "bool": "?",
     "uint8_t": "B",
     "int8_t": "b",
     "uint16_t": "H",
     "int16_t": "h",
     "uint32_t": "I",
     "int32_t": "i",
-    "double": "d",
+    "float": "f",
+    "double": "d"
 }
 
 messages = json.load(open("messages.json", "r"))

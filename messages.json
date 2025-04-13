@@ -38,5 +38,25 @@
             {"name": "lon", "type": "uint32_t"},
             {"name": "alt", "type": "float"}
         ]
+    },
+    {
+        "msg_name": "calibrate",
+        "msg_id": 4,
+        "fields": [
+            {"name": "acknowledgement", "type": "bool"}
+        ]
+    },
+    {
+        "msg_name": "vfr_hud",
+        "msg_id": 5,
+        "fields": [
+            {"name": "roll", "type": "int16_t"},
+            {"name": "pitch", "type": "int16_t"},
+            {"name": "yaw", "type": "int16_t"},
+            {"name": "alt", "type": "int16_t"},
+            {"name": "alt_sp", "type": "int16_t"},
+            {"name": "spd", "type": "int16_t"},
+            {"name": "spd_sp", "type": "int16_t"}
+        ]
     }
 ]
