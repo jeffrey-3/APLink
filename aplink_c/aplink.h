@@ -1,4 +1,7 @@
 
+#ifndef APLINK_H_
+#define APLINK_H_ 
+
 // Auto-generated C
                     
 #include <stdint.h>
@@ -51,3 +54,20 @@ void aplink_cal_sensors_pack()
 {
     
 }
+  
+#define COMMAND_MSG_ID 2
+
+struct aplink_command 
+{
+    
+    uint8_t command_id;
+    
+};
+                    
+void aplink_command_pack()
+{
+    
+}
+
+                    
+#endif /* APLINK_H_ */

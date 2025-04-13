@@ -3,7 +3,15 @@ from jinja2 import Template
 
 # Don't need packing, just manually set the values
 
+# what if I just keep padding? No harm?
+
+# This is what mavclink does: char buf[MAVLINK_MSG_ID_GLOBAL_POSITION_INT_LEN];
+    #_mav_put_uint32_t(buf, 0, time_boot_ms);
+
 template = Template('''
+#ifndef APLINK_H_
+#define APLINK_H_ 
+
 // Auto-generated C
                     
 #include <stdint.h>
@@ -23,6 +31,8 @@ void aplink_{{ messages[i].msg_name }}_pack()
     
 }
 {% endfor %}
+                    
+#endif /* APLINK_H_ */
 ''')
 
 type_mappings = {

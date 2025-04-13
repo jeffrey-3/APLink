@@ -22,5 +22,12 @@
             {"name": "my", "type": "float"},
             {"name": "mz", "type": "float"}
         ]
+    },
+    {
+        "msg_name": "command",
+        "msg_id": 2,
+        "fields": [
+            {"name": "command_id", "type": "uint8_t"}
+        ]
     }
 ]

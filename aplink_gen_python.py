@@ -10,21 +10,24 @@ from typing import Optional, Tuple
 
 {% for i in range(messages|length) %}        
 class aplink_{{ messages[i].msg_name }}:
-    format = "{{ formats[i] }}"
+    format = "=t{{ formats[i] }}"
     msg_id = {{ messages[i].msg_id }}  
                       
     {% for field in messages[i].fields %}
     {{ field.name }} = None
     {% endfor %}
     
-    def unpack(self, bytes):
-        data = struct.unpack(format, bytes)
-        {% for j in range(messages[i].fields|length) %}
-        self.{{ messages[i].fields[j].name }} = data[{{ j }}]
-        {% endfor %}
+    def unpack(self, payload: bytes):
+        if len(payload) != struct.calcsize(self.format):
+            return False
+                    
+        {% for field in messages[i].fields %}self.{{ field.name }}, {% endfor %}= struct.unpack(self.format, payload)
+                    
+        return True
     
     def pack(self):
-        return struct.pack(format{% for field in messages[i]['fields'] %}, self.{{ field['name'] }}{% endfor %})
+        payload = struct.pack(format{% for field in messages[i].fields %}, self.{{ field.name }}{% endfor %})
+        return APLink().pack(payload, self.msg_id)
 {% endfor %}
                     
 class APLink:
