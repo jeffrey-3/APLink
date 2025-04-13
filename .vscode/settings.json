@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "aplink.h": "c"
+        "aplink.h": "c",
+        "stdbool.h": "c"
     }
 }

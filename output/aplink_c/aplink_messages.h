@@ -3,13 +3,16 @@
 #define APLINK_H_ 
 
 // Auto-generated C
-                    
+
+#include "aplink.h" 
 #include <stdint.h>
+#include <string.h>
 
   
 #define NAV_DISPLAY_MSG_ID 0
 
-struct aplink_nav_display 
+#pragma pack(push, 1)
+typedef struct aplink_nav_display 
 {
     
     float pos_est_north;
@@ -18,16 +21,27 @@ struct aplink_nav_display
     
     uint8_t current_waypoint;
     
-};
+} aplink_nav_display_t;
+#pragma pack(pop)
+                                   
+inline uint16_t aplink_nav_display_pack(aplink_nav_display_t* data, uint8_t packet[], uint8_t msg_id) {
+    uint8_t buffer[sizeof(data)];
+    memcpy(buffer, &data, sizeof(data));
+    return aplink_pack(packet, buffer, sizeof(buffer), msg_id);
+}
                     
-void aplink_nav_display_pack()
-{
-    
+inline bool aplink_nav_display_unpack(aplink_msg_t* msg, aplink_nav_display_t* output, uint8_t expected_msg_id) {
+    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(T)) {
+        memcpy(output, msg->payload, sizeof(T));
+        return true;
+    }
+    return false;
 }
   
 #define CAL_SENSORS_MSG_ID 1
 
-struct aplink_cal_sensors 
+#pragma pack(push, 1)
+typedef struct aplink_cal_sensors 
 {
     
     float gx;
@@ -48,30 +62,52 @@ struct aplink_cal_sensors
     
     float mz;
     
-};
+} aplink_cal_sensors_t;
+#pragma pack(pop)
+                                   
+inline uint16_t aplink_cal_sensors_pack(aplink_cal_sensors_t* data, uint8_t packet[], uint8_t msg_id) {
+    uint8_t buffer[sizeof(data)];
+    memcpy(buffer, &data, sizeof(data));
+    return aplink_pack(packet, buffer, sizeof(buffer), msg_id);
+}
                     
-void aplink_cal_sensors_pack()
-{
-    
+inline bool aplink_cal_sensors_unpack(aplink_msg_t* msg, aplink_cal_sensors_t* output, uint8_t expected_msg_id) {
+    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(T)) {
+        memcpy(output, msg->payload, sizeof(T));
+        return true;
+    }
+    return false;
 }
   
 #define COMMAND_MSG_ID 2
 
-struct aplink_command 
+#pragma pack(push, 1)
+typedef struct aplink_command 
 {
     
     uint8_t command_id;
     
-};
+} aplink_command_t;
+#pragma pack(pop)
+                                   
+inline uint16_t aplink_command_pack(aplink_command_t* data, uint8_t packet[], uint8_t msg_id) {
+    uint8_t buffer[sizeof(data)];
+    memcpy(buffer, &data, sizeof(data));
+    return aplink_pack(packet, buffer, sizeof(buffer), msg_id);
+}
                     
-void aplink_command_pack()
-{
-    
+inline bool aplink_command_unpack(aplink_msg_t* msg, aplink_command_t* output, uint8_t expected_msg_id) {
+    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(T)) {
+        memcpy(output, msg->payload, sizeof(T));
+        return true;
+    }
+    return false;
 }
   
 #define WAYPOINT_MSG_ID 3
 
-struct aplink_waypoint 
+#pragma pack(push, 1)
+typedef struct aplink_waypoint 
 {
     
     uint32_t lat;
@@ -80,30 +116,52 @@ struct aplink_waypoint
     
     float alt;
     
-};
+} aplink_waypoint_t;
+#pragma pack(pop)
+                                   
+inline uint16_t aplink_waypoint_pack(aplink_waypoint_t* data, uint8_t packet[], uint8_t msg_id) {
+    uint8_t buffer[sizeof(data)];
+    memcpy(buffer, &data, sizeof(data));
+    return aplink_pack(packet, buffer, sizeof(buffer), msg_id);
+}
                     
-void aplink_waypoint_pack()
-{
-    
+inline bool aplink_waypoint_unpack(aplink_msg_t* msg, aplink_waypoint_t* output, uint8_t expected_msg_id) {
+    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(T)) {
+        memcpy(output, msg->payload, sizeof(T));
+        return true;
+    }
+    return false;
 }
   
 #define CALIBRATE_MSG_ID 4
 
-struct aplink_calibrate 
+#pragma pack(push, 1)
+typedef struct aplink_calibrate 
 {
     
     bool acknowledgement;
     
-};
+} aplink_calibrate_t;
+#pragma pack(pop)
+                                   
+inline uint16_t aplink_calibrate_pack(aplink_calibrate_t* data, uint8_t packet[], uint8_t msg_id) {
+    uint8_t buffer[sizeof(data)];
+    memcpy(buffer, &data, sizeof(data));
+    return aplink_pack(packet, buffer, sizeof(buffer), msg_id);
+}
                     
-void aplink_calibrate_pack()
-{
-    
+inline bool aplink_calibrate_unpack(aplink_msg_t* msg, aplink_calibrate_t* output, uint8_t expected_msg_id) {
+    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(T)) {
+        memcpy(output, msg->payload, sizeof(T));
+        return true;
+    }
+    return false;
 }
   
 #define VFR_HUD_MSG_ID 5
 
-struct aplink_vfr_hud 
+#pragma pack(push, 1)
+typedef struct aplink_vfr_hud 
 {
     
     int16_t roll;
@@ -120,11 +178,21 @@ struct aplink_vfr_hud
     
     int16_t spd_sp;
     
-};
+} aplink_vfr_hud_t;
+#pragma pack(pop)
+                                   
+inline uint16_t aplink_vfr_hud_pack(aplink_vfr_hud_t* data, uint8_t packet[], uint8_t msg_id) {
+    uint8_t buffer[sizeof(data)];
+    memcpy(buffer, &data, sizeof(data));
+    return aplink_pack(packet, buffer, sizeof(buffer), msg_id);
+}
                     
-void aplink_vfr_hud_pack()
-{
-    
+inline bool aplink_vfr_hud_unpack(aplink_msg_t* msg, aplink_vfr_hud_t* output, uint8_t expected_msg_id) {
+    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(T)) {
+        memcpy(output, msg->payload, sizeof(T));
+        return true;
+    }
+    return false;
 }
 
                     
