@@ -22,20 +22,13 @@
             {"name": "my", "type": "float"},
             {"name": "mz", "type": "float"}
         ]
-    }, 
-    {
-        "msg_name": "command",
-        "msg_id": 2,
-        "fields": [
-            {"name": "command_id", "type": "uint8_t"}
-        ]
-    }, 
+    },
     {
         "msg_name": "waypoint",
         "msg_id": 3,
         "fields": [
-            {"name": "lat", "type": "uint32_t"},
-            {"name": "lon", "type": "uint32_t"},
+            {"name": "lat", "type": "int32_t"},
+            {"name": "lon", "type": "int32_t"},
             {"name": "alt", "type": "float"}
         ]
     },
@@ -43,7 +36,7 @@
         "msg_name": "calibrate",
         "msg_id": 4,
         "fields": [
-            {"name": "acknowledgement", "type": "bool"}
+            {"name": "placeholder_value", "type": "bool"}
         ]
     },
     {
@@ -51,12 +44,128 @@
         "msg_id": 5,
         "fields": [
             {"name": "roll", "type": "int16_t"},
+            {"name": "roll_sp", "type": "int16_t"},
             {"name": "pitch", "type": "int16_t"},
+            {"name": "pitch_sp", "type": "int16_t"},
             {"name": "yaw", "type": "int16_t"},
             {"name": "alt", "type": "int16_t"},
             {"name": "alt_sp", "type": "int16_t"},
             {"name": "spd", "type": "int16_t"},
-            {"name": "spd_sp", "type": "int16_t"}
+            {"name": "spd_sp", "type": "int16_t"},
+            {"name": "system_mode", "type": "uint8_t"},
+            {"name": "flight_mode", "type": "uint8_t"},
+            {"name": "manual_mode", "type": "uint8_t"},
+            {"name": "auto_mode", "type": "uint8_t"}
+        ]
+    },
+    {
+        "msg_name": "gps_raw",
+        "msg_id": 6,
+        "fields": [
+            {"name": "lat", "type": "int32_t"},
+            {"name": "lon", "type": "int32_t"},
+            {"name": "sats", "type": "uint8_t"},
+            {"name": "fix", "type": "bool"}
+        ]
+    },
+    {
+        "msg_name": "hitl_sensors",
+        "msg_id": 7,
+        "fields": [
+            {"name": "imu_ax", "type": "float"},
+            {"name": "imu_ay", "type": "float"},
+            {"name": "imu_az", "type": "float"},
+            {"name": "imu_gx", "type": "float"},
+            {"name": "imu_gy", "type": "float"},
+            {"name": "imu_gz", "type": "float"},
+            {"name": "mag_x", "type": "float"},
+            {"name": "mag_y", "type": "float"},
+            {"name": "mag_z", "type": "float"},
+            {"name": "baro_asl", "type": "float"},
+            {"name": "gps_lat", "type": "int32_t"},
+            {"name": "gps_lon", "type": "int32_t"},
+            {"name": "of_x", "type": "int16_t"},
+            {"name": "of_y", "type": "int16_t"}
+        ]
+    },
+    {
+        "msg_name": "hitl_commands",
+        "msg_id": 1,
+        "fields": [
+            {"name": "rud_pwm", "type": "uint16_t"},
+            {"name": "ele_pwm", "type": "uint16_t"},
+            {"name": "thr_pwm", "type": "uint16_t"}
+        ]
+    },
+    {
+        "msg_name": "hitl_enable",
+        "msg_id": 4,
+        "fields": [
+            {"name": "placeholder_value", "type": "bool"}
+        ]
+    },
+    {
+        "msg_name": "waypoints_count",
+        "msg_id": 1,
+        "fields": [
+            {"name": "num_waypoints", "type": "uint8_t"}
+        ]
+    },
+    {
+        "msg_name": "request_waypoint",
+        "msg_id": 8,
+        "fields": [
+            {"name": "index", "type": "uint8_t"}
+        ]
+    },
+    {
+        "msg_name": "waypoints_ack",
+        "msg_id": 1,
+        "fields": [
+            {"name": "waypoints_loaded", "type": "uint8_t"}
+        ]
+    },
+    {
+        "msg_name": "time_since_epoch",
+        "msg_id": 4,
+        "fields": [
+            {"name": "microseconds", "type": "uint64_t"}
+        ]
+    },
+    {
+        "msg_name": "rc_input",
+        "msg_id": 1,
+        "fields": [
+            {"name": "ail", "type": "int8_t"},
+            {"name": "ele", "type": "int8_t"},
+            {"name": "rud", "type": "int8_t"},
+            {"name": "thr", "type": "int8_t"}
+        ]
+    },
+    {
+        "msg_name": "power",
+        "msg_id": 1,
+        "fields": [
+            {"name": "batt_volt", "type": "uint16_t"},
+            {"name": "batt_curr", "type": "uint16_t"},
+            {"name": "batt_used", "type": "uint16_t"},
+            {"name": "ap_curr", "type": "uint16_t"}
+        ]
+    },
+    {
+        "msg_name": "param_set",
+        "msg_id": 1,
+        "fields": [
+            {"name": "name", "type": "char", "count": 16},
+            {"name": "value", "type": "uint8_t", "count": 4},
+            {"name": "type", "type": "uint8_t"}
+        ]
+    },
+    {
+        "msg_name": "params_ack",
+        "msg_id": 1,
+        "fields": [
+            {"name": "params_loaded", "type": "uint8_t"}
         ]
     }
 ]

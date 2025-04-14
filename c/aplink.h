@@ -1,5 +1,5 @@
-#ifndef LIB_APLINK_APLINK_H_
-#define LIB_APLINK_APLINK_H_
+#ifndef APLINK_H_
+#define APLINK_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -36,4 +36,4 @@ bool aplink_unpack(const uint8_t packet[], uint8_t payload[], uint8_t* payload_l
 uint16_t aplink_calc_packet_size(uint8_t payload_size);
 uint16_t aplink_crc16(const uint8_t data[], size_t length);
 
-#endif /* LIB_APLINK_APLINK_H_ */
+#endif /* APLINK_H_ */

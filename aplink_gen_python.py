@@ -32,6 +32,7 @@ class aplink_{{ messages[i].msg_name }}:
 ''')
 
 type_mappings = {
+    "char": "c",
     "bool": "?",
     "uint8_t": "B",
     "int8_t": "b",
@@ -39,6 +40,8 @@ type_mappings = {
     "int16_t": "h",
     "uint32_t": "I",
     "int32_t": "i",
+    "uint64_t": "Q",
+    "int64_t": "q",
     "float": "f",
     "double": "d"
 }
@@ -47,7 +50,11 @@ messages = json.load(open("messages.json", "r"))
 
 formats = []
 for message in messages:
-    formats.append("".join(type_mappings[field["type"]] for field in message["fields"]))
+    format_str = []
+    for field in message["fields"]:
+        count = field.get("count", 1) # Default to 1 if no count specified
+        format_str.append(type_mappings[field["type"]] * count)
+    formats.append("".join(format_str))
 
 python_code = template.render(messages=messages, formats=formats)
 
@@ -56,3 +63,6 @@ f.write(python_code)
 f.close()
 
 shutil.copytree("py", "output/aplink_python", dirs_exist_ok=True)
+
+
+# Look at MAVLINK enumerated types for example MAV_PARAM_TYPE which is enum to map parameter type to uint8_t

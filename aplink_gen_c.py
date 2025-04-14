@@ -3,8 +3,8 @@ import shutil
 from jinja2 import Template
 
 template = Template('''
-#ifndef APLINK_H_
-#define APLINK_H_ 
+#ifndef APLINK_MESSAGES_H_
+#define APLINK_MESSAGES_H_ 
 
 // Auto-generated C
 
@@ -19,7 +19,11 @@ template = Template('''
 typedef struct aplink_{{ messages[i].msg_name }} 
 {
     {% for field in messages[i].fields %}
+    {% if 'count' in field %}
+    {{ field.type }} {{ field.name }}[{{ field.count }}];
+    {% else %}
     {{ field.type }} {{ field.name }};
+    {% endif %}
     {% endfor %}
 } aplink_{{ messages[i].msg_name }}_t;
 #pragma pack(pop)
@@ -31,15 +35,15 @@ inline uint16_t aplink_{{ messages[i].msg_name }}_pack(aplink_{{ messages[i].msg
 }
                     
 inline bool aplink_{{ messages[i].msg_name }}_unpack(aplink_msg_t* msg, aplink_{{ messages[i].msg_name }}_t* output, uint8_t expected_msg_id) {
-    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(T)) {
-        memcpy(output, msg->payload, sizeof(T));
+    if (msg->msg_id == expected_msg_id && msg->payload_len == sizeof(aplink_{{ messages[i].msg_name }}_t)) {
+        memcpy(output, msg->payload, sizeof(aplink_{{ messages[i].msg_name }}_t));
         return true;
     }
     return false;
 }
 {% endfor %}
                     
-#endif /* APLINK_H_ */
+#endif /* APLINK_MESSAGES_H_ */
 ''')
 
 messages = json.load(open("messages.json", "r"))
