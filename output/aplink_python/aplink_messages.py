@@ -2,7 +2,26 @@
 # Auto-generated Python
 
 import struct
+from enum import Enum
 from output.aplink_python.aplink_helpers import APLink
+                    
+
+class PARAM_TYPE(Enum):
+    
+    PARAM_TYPE_INT32 = 0,
+    
+    PARAM_TYPE_FLOAT = 1,
+    
+
+class COMMAND_ID(Enum):
+    
+    CALIBRATE = 0,
+    
+    LOAD_WAYPOINTS = 1,
+    
+    HITL_ENABLE = 2,
+    
+ 
 
         
 class aplink_nav_display:
@@ -67,7 +86,7 @@ class aplink_cal_sensors:
         
 class aplink_waypoint:
     format = "=iif"
-    msg_id = 3  
+    msg_id = 2  
                       
     
     lat = None
@@ -89,29 +108,9 @@ class aplink_waypoint:
         payload = struct.pack(format, lat, lon, alt)
         return APLink().pack(payload, self.msg_id)
         
-class aplink_calibrate:
-    format = "=?"
-    msg_id = 4  
-                      
-    
-    placeholder_value = None
-    
-    
-    def unpack(self, payload: bytes):
-        if len(payload) != struct.calcsize(self.format):
-            return False
-                    
-        self.placeholder_value, = struct.unpack(self.format, payload)
-                    
-        return True
-    
-    def pack(self, placeholder_value):
-        payload = struct.pack(format, placeholder_value)
-        return APLink().pack(payload, self.msg_id)
-        
 class aplink_vfr_hud:
     format = "=hhhhhhhhhBBBB"
-    msg_id = 5  
+    msg_id = 3  
                       
     
     roll = None
@@ -155,7 +154,7 @@ class aplink_vfr_hud:
         
 class aplink_gps_raw:
     format = "=iiB?"
-    msg_id = 6  
+    msg_id = 4  
                       
     
     lat = None
@@ -181,7 +180,7 @@ class aplink_gps_raw:
         
 class aplink_hitl_sensors:
     format = "=ffffffffffiihh"
-    msg_id = 7  
+    msg_id = 5  
                       
     
     imu_ax = None
@@ -227,7 +226,7 @@ class aplink_hitl_sensors:
         
 class aplink_hitl_commands:
     format = "=HHH"
-    msg_id = 1  
+    msg_id = 6  
                       
     
     rud_pwm = None
@@ -249,29 +248,9 @@ class aplink_hitl_commands:
         payload = struct.pack(format, rud_pwm, ele_pwm, thr_pwm)
         return APLink().pack(payload, self.msg_id)
         
-class aplink_hitl_enable:
-    format = "=?"
-    msg_id = 4  
-                      
-    
-    placeholder_value = None
-    
-    
-    def unpack(self, payload: bytes):
-        if len(payload) != struct.calcsize(self.format):
-            return False
-                    
-        self.placeholder_value, = struct.unpack(self.format, payload)
-                    
-        return True
-    
-    def pack(self, placeholder_value):
-        payload = struct.pack(format, placeholder_value)
-        return APLink().pack(payload, self.msg_id)
-        
 class aplink_waypoints_count:
     format = "=B"
-    msg_id = 1  
+    msg_id = 7  
                       
     
     num_waypoints = None
@@ -311,7 +290,7 @@ class aplink_request_waypoint:
         
 class aplink_waypoints_ack:
     format = "=B"
-    msg_id = 1  
+    msg_id = 9  
                       
     
     waypoints_loaded = None
@@ -331,7 +310,7 @@ class aplink_waypoints_ack:
         
 class aplink_time_since_epoch:
     format = "=Q"
-    msg_id = 4  
+    msg_id = 10  
                       
     
     microseconds = None
@@ -351,7 +330,7 @@ class aplink_time_since_epoch:
         
 class aplink_rc_input:
     format = "=bbbb"
-    msg_id = 1  
+    msg_id = 11  
                       
     
     ail = None
@@ -377,7 +356,7 @@ class aplink_rc_input:
         
 class aplink_power:
     format = "=HHHH"
-    msg_id = 1  
+    msg_id = 12  
                       
     
     batt_volt = None
@@ -403,7 +382,7 @@ class aplink_power:
         
 class aplink_param_set:
     format = "=ccccccccccccccccBBBBB"
-    msg_id = 1  
+    msg_id = 13  
                       
     
     name = None
@@ -427,7 +406,7 @@ class aplink_param_set:
         
 class aplink_params_ack:
     format = "=B"
-    msg_id = 1  
+    msg_id = 14  
                       
     
     params_loaded = None
@@ -443,4 +422,44 @@ class aplink_params_ack:
     
     def pack(self, params_loaded):
         payload = struct.pack(format, params_loaded)
+        return APLink().pack(payload, self.msg_id)
+        
+class aplink_command:
+    format = "=B"
+    msg_id = 15  
+                      
+    
+    command_id = None
+    
+    
+    def unpack(self, payload: bytes):
+        if len(payload) != struct.calcsize(self.format):
+            return False
+                    
+        self.command_id, = struct.unpack(self.format, payload)
+                    
+        return True
+    
+    def pack(self, command_id):
+        payload = struct.pack(format, command_id)
+        return APLink().pack(payload, self.msg_id)
+        
+class aplink_acknowledgement:
+    format = "=B"
+    msg_id = 16  
+                      
+    
+    command_id = None
+    
+    
+    def unpack(self, payload: bytes):
+        if len(payload) != struct.calcsize(self.format):
+            return False
+                    
+        self.command_id, = struct.unpack(self.format, payload)
+                    
+        return True
+    
+    def pack(self, command_id):
+        payload = struct.pack(format, command_id)
         return APLink().pack(payload, self.msg_id)

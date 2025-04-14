@@ -6,12 +6,20 @@ template = Template('''
 # Auto-generated Python
 
 import struct
+from enum import Enum
 from output.aplink_python.aplink_helpers import APLink
+                    
+{% for enum in enums %}
+class {{ enum.enum_name }}(Enum):
+    {% for i in range(enum.entries|length) %}
+    {{ enum.entries[i] }} = {{ i }},
+    {% endfor %}
+{% endfor %} 
 
 {% for i in range(messages|length) %}        
 class aplink_{{ messages[i].msg_name }}:
     format = "={{ formats[i] }}"
-    msg_id = {{ messages[i].msg_id }}  
+    msg_id = {{ i }}  
                       
     {% for field in messages[i].fields %}
     {{ field.name }} = None
@@ -46,7 +54,8 @@ type_mappings = {
     "double": "d"
 }
 
-messages = json.load(open("messages.json", "r"))
+messages = json.load(open("format.json", "r"))["messages"]
+enums = json.load(open("format.json", "r"))["enums"]
 
 formats = []
 for message in messages:
@@ -56,7 +65,7 @@ for message in messages:
         format_str.append(type_mappings[field["type"]] * count)
     formats.append("".join(format_str))
 
-python_code = template.render(messages=messages, formats=formats)
+python_code = template.render(messages=messages, formats=formats, enums=enums)
 
 f = open("output/aplink_python/aplink_messages.py", "w")
 f.write(python_code)
