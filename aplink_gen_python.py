@@ -6,11 +6,11 @@ template = Template('''
 # Auto-generated Python
 
 import struct
-from enum import Enum
+from enum import IntEnum
 from output.aplink_python.aplink_helpers import APLink
                     
 {% for enum in enums %}
-class {{ enum.enum_name }}(Enum):
+class {{ enum.enum_name }}(IntEnum):
     {% for i in range(enum.entries|length) %}
     {{ enum.entries[i] }} = {{ i }},
     {% endfor %}
@@ -18,29 +18,25 @@ class {{ enum.enum_name }}(Enum):
 
 {% for i in range(messages|length) %}        
 class aplink_{{ messages[i].msg_name }}:
-    format = "={{ formats[i] }}"
     msg_id = {{ i }}  
                       
     {% for field in messages[i].fields %}
-    {{ field.name }} = None
+    {{ field.name }} = {% if 'count' in field%}[]{% else %}None{% endif %}             
     {% endfor %}
     
     def unpack(self, payload: bytes):
-        if len(payload) != struct.calcsize(self.format):
-            return False
-                    
-        {% for field in messages[i].fields %}self.{{ field.name }}, {% endfor %}= struct.unpack(self.format, payload)
+        {% for field in messages[i].fields %}self.{{ field.name }}, {% endfor %}= struct.unpack("={{ formats[i] }}", payload)
                     
         return True
     
     def pack(self{% for field in messages[i].fields %}, {{ field.name }}{% endfor %}):
-        payload = struct.pack(format{% for field in messages[i].fields %}, {{ field.name }}{% endfor %})
+        payload = struct.pack("={{ formats[i] }}"{% for field in messages[i].fields %}, {% if 'count' in field%}{% if field.count > 1%}*{% endif %}{% endif %}{{ field.name }}{% endfor %})
         return APLink().pack(payload, self.msg_id)
 {% endfor %}
 ''')
 
 type_mappings = {
-    "char": "c",
+    "char": "B",
     "bool": "?",
     "uint8_t": "B",
     "int8_t": "b",

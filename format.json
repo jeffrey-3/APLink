@@ -1,13 +1,23 @@
 {
     "messages": [
         {
-            "msg_name": "nav_display",
+            "msg_name": "vehicle_status_full",
             "fields": [
-                {"name": "pos_est_north", "type": "float"},
-                {"name": "pos_est_east", "type": "float"},
-                {"name": "current_waypoint", "type": "uint8_t"}
+                {"name": "roll", "type": "int16_t"},
+                {"name": "roll_sp", "type": "int16_t"},
+                {"name": "pitch", "type": "int16_t"},
+                {"name": "pitch_sp", "type": "int16_t"},
+                {"name": "yaw", "type": "int16_t"},
+                {"name": "alt", "type": "int16_t"},
+                {"name": "alt_sp", "type": "int16_t"},
+                {"name": "spd", "type": "int16_t"},
+                {"name": "spd_sp", "type": "int16_t"},
+                {"name": "lat", "type": "int32_t"},
+                {"name": "lon", "type": "int32_t"},
+                {"name": "current_waypoint", "type": "uint8_t"},
+                {"name": "mode_id", "type": "uint8_t"}
             ]
-        }, 
+        },
         {
             "msg_name": "cal_sensors",
             "fields": [
@@ -28,24 +38,6 @@
                 {"name": "lat", "type": "int32_t"},
                 {"name": "lon", "type": "int32_t"},
                 {"name": "alt", "type": "float"}
-            ]
-        },
-        {
-            "msg_name": "vfr_hud",
-            "fields": [
-                {"name": "roll", "type": "int16_t"},
-                {"name": "roll_sp", "type": "int16_t"},
-                {"name": "pitch", "type": "int16_t"},
-                {"name": "pitch_sp", "type": "int16_t"},
-                {"name": "yaw", "type": "int16_t"},
-                {"name": "alt", "type": "int16_t"},
-                {"name": "alt_sp", "type": "int16_t"},
-                {"name": "spd", "type": "int16_t"},
-                {"name": "spd_sp", "type": "int16_t"},
-                {"name": "system_mode", "type": "uint8_t"},
-                {"name": "flight_mode", "type": "uint8_t"},
-                {"name": "manual_mode", "type": "uint8_t"},
-                {"name": "auto_mode", "type": "uint8_t"}
             ]
         },
         {
@@ -99,7 +91,7 @@
         {
             "msg_name": "waypoints_ack",
             "fields": [
-                {"name": "waypoints_loaded", "type": "uint8_t"}
+                {"name": "success", "type": "bool"}
             ]
         },
         {
@@ -135,19 +127,7 @@
             ]
         },
         {
-            "msg_name": "params_ack",
-            "fields": [
-                {"name": "params_loaded", "type": "uint8_t"}
-            ]
-        },
-        {
             "msg_name": "command",
-            "fields": [
-                {"name": "command_id", "type": "uint8_t"}
-            ]
-        },
-        {
-            "msg_name": "acknowledgement",
             "fields": [
                 {"name": "command_id", "type": "uint8_t"}
             ]
@@ -164,8 +144,20 @@
         {
             "enum_name": "COMMAND_ID",
             "entries": [
-                "CALIBRATE",
-                "HITL_ENABLE"
+                "CALIBRATE"
+            ]
+        },
+        {
+            "enum_name": "MODE_ID",
+            "entries": [
+                "CONFIG",
+                "STARTUP",
+                "MANUAL",
+                "FBW",
+                "TAKEOFF",
+                "MISSION",
+                "LAND",
+                "FLARE"
             ]
         }
     ]
